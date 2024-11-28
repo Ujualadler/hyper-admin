@@ -1,0 +1,49 @@
+/* Container layout */
+.layout {
+    display: flex;
+    height: 100vh; /* Full viewport height */
+    width: 100%;
+    overflow: hidden;
+  }
+  
+ 
+  
+  
+  
+  /* Content styles */
+  .content {
+    flex-grow: 1;
+    padding: 40px;
+    background-color: #ecf0f1;
+    overflow-y: auto; /* Allow scrolling if content overflows */
+  }
+  
+  .content h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #2c3e50;
+  }
+  
+  .content p {
+    font-size: 16px;
+    color: #7f8c8d;
+    line-height: 1.6;
+  }
+  
+  /* Responsive design for smaller screens */
+  @media (max-width: 768px) {
+    .layout {
+      flex-direction: column;
+    }
+  
+    .sidebar {
+      width: 100%;
+      height: auto;
+      padding: 10px;
+    }
+  
+    .content {
+      padding: 20px;
+    }
+  }
+  
