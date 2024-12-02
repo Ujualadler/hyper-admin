@@ -19,10 +19,11 @@ function Assessment() {
   const [addAssessment, setAddAssessment] = useState(false);
   const [showConfiramtion, setShowConfirmation] = useState(false);
   const [category, setCategory] = useState('all');
+  const [difficulty, setDifficulty] = useState('');
   useEffect(() => {
     (async () => {
       try {
-        const response = await getAllAssessment(category);
+        const response = await getAllAssessment(category,difficulty);
         if (response.data) {
           setAssessmentData(response.data);
         }

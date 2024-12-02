@@ -41,6 +41,7 @@ function AddAssessment({ onClose, id, name }: PopupFormProps) {
   const QuillRef = useRef<any>();
   const optionRefs = useRef<any[]>([]);
   const fileRef = useRef<any>();
+  const quizRef = useRef<any>();
   const [questions, setQuestions] = useState<Question[]>([]);
   const [category, setCategory] = useState<string>("practice");
   const [time, setTime] = useState<string>("");
@@ -52,6 +53,7 @@ function AddAssessment({ onClose, id, name }: PopupFormProps) {
   const [isEditOptionChange, setIsEditOptionChange] = useState<boolean>(false);
   const [questionMark, setQuestionMark] = useState<number>(0);
   const [imagePreview, setImagePreview] = useState<any>(null);
+  const [quizPreview, setQuizPreview] = useState<any>(null);
   const [questionId, setQuestionId] = useState<any>(null);
   const [isDataChange, setIsDataChange] = useState<boolean>(false);
   const [questionType, setQuestionType] =
@@ -62,6 +64,7 @@ function AddAssessment({ onClose, id, name }: PopupFormProps) {
   ]);
   const [correctAnswer, setCorrectAnswer] = useState<string | string[]>(""); // Multiple correct answers
   const [attachedFile, setAttachedFile] = useState<File | null>(null);
+  const [quizFile, setQuizFile] = useState<File | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -135,6 +138,9 @@ function AddAssessment({ onClose, id, name }: PopupFormProps) {
       if (attachedFile) {
         formData.append("file", attachedFile);
       }
+      if (quizFile) {
+        formData.append("image", quizFile);
+      }
 
       if (formData) {
         for (let [key, value] of formData.entries()) {
@@ -175,6 +181,16 @@ function AddAssessment({ onClose, id, name }: PopupFormProps) {
       setAttachedFile(event.target.files[0]);
       const filePreview = URL?.createObjectURL(event.target.files[0]);
       setImagePreview(filePreview);
+    }
+  };
+
+  const handleQuizImageUpload = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (event.target.files && event.target.files[0]) {
+      setQuizFile(event.target.files[0]);
+      const filePreview = URL?.createObjectURL(event.target.files[0]);
+      setQuizPreview(filePreview);
     }
   };
 
@@ -426,6 +442,8 @@ function AddAssessment({ onClose, id, name }: PopupFormProps) {
       formData.append("file", attachedFile);
     }
 
+
+
     if (formData) {
       for (let [key, value] of formData.entries()) {
         console.log(key, value);
@@ -521,6 +539,19 @@ function AddAssessment({ onClose, id, name }: PopupFormProps) {
                 <option value="medium">Medium</option>
                 <option value="hard">Hard</option>
               </select>
+              <label>Attach quiz profile Image/File</label>
+              <input
+                ref={quizRef}
+                type="file"
+                onChange={handleQuizImageUpload}
+              />
+              {quizPreview && !isEdit && (
+                <img
+                  src={quizPreview}
+                  style={{ height: "200px", width: "100%" }}
+                />
+              )}
+
               <label>Question Type</label>
               <select
                 value={questionType}
@@ -569,7 +600,7 @@ function AddAssessment({ onClose, id, name }: PopupFormProps) {
                     top: -8,
                     right: -8,
                     height: "20px",
-                    width: "20px",
+                    width: "20px"s
                     cursor: "pointer",
                   }}
                 />
@@ -578,7 +609,7 @@ function AddAssessment({ onClose, id, name }: PopupFormProps) {
                     src={
                       imagePreview
                         ? imagePreview
-                        : `${API_URL}/api/assessment/${attachedFile}`
+                        : `${API_URL}/quiz/${attachedFile}`
                     }
                     style={{ height: "200px", width: "100%" }}
                   />
@@ -675,7 +706,7 @@ function AddAssessment({ onClose, id, name }: PopupFormProps) {
                             src={
                               option.filePreview
                                 ? option.filePreview
-                                : `${API_URL}/api/assessment/${option?.file}`
+                                : `${API_URL}/quiz/${option?.file}`
                             }
                             style={{
                               objectFit: "fill",
@@ -920,9 +951,7 @@ function AddAssessment({ onClose, id, name }: PopupFormProps) {
                       />
                       {question.file && (
                         <div>
-                          <img
-                            src={`${API_URL}/api/assessment/${question?.file}`}
-                          />
+                          <img src={`${API_URL}/quiz/${question?.file}`} />
                         </div>
                       )}
                       <div style={{ marginLeft: "42px" }}>
@@ -952,7 +981,7 @@ function AddAssessment({ onClose, id, name }: PopupFormProps) {
                                         height: "150px",
                                         width: "150px",
                                       }}
-                                      src={`${API_URL}/api/assessment/${option?.file}`}
+                                      src={`${API_URL}/api/quiz/${option?.file}`}
                                     />
                                   )}
                                 </>
@@ -993,7 +1022,7 @@ function AddAssessment({ onClose, id, name }: PopupFormProps) {
                                         height: "150px",
                                         width: "150px",
                                       }}
-                                      src={`${API_URL}/api/assessment/${option?.file}`}
+                                      src={`${API_URL}/quiz/${option?.file}`}
                                     />
                                   )}
                                 </div>

@@ -28,7 +28,7 @@ const logout = () => {
 export const getAssessment = async (id: string): Promise<any> => {
   try {
     const { data }: AxiosResponse<any> = await API_CLIENT.get(
-      `/quiz/getQuiz?id=${id}`,
+      `/quiz/getQuizAdmin?id=${id}`,
       { headers: getHeaders().headers }
     );
     if (data) {
@@ -49,10 +49,13 @@ export const getAssessment = async (id: string): Promise<any> => {
   }
 };
 
-export const getAllAssessment = async (category:string): Promise<any> => {
+export const getAllAssessment = async (
+  category: string,
+  difficulty: string
+): Promise<any> => {
   try {
     const { data }: AxiosResponse<any> = await API_CLIENT.get(
-      `/quiz/getAllQuiz?id=${category}`,
+      `/quiz/getAllQuiz?id=${category}&difficulty=${difficulty}`,
       { headers: getHeaders().headers }
     );
     if (data) {
